@@ -21,6 +21,10 @@ npm install
 npm run dev                 # http://localhost:5173
 ```
 
+### Install as an app (PWA)
+
+The frontend is a Progressive Web App. The service worker only runs in a production build, so run `npm run build && npm run preview` (http://localhost:4173, which still forwards `/api` to the backend), then use the browser's **Install** button. Offline, it shows the last data it fetched. Icons are generated at build time from `frontend/public/favicon.svg` (see `frontend/pwa-assets.config.ts`).
+
 ### Kite setup (optional)
 
 1. Create an app at https://developers.kite.trade (market data needs a paid Kite Connect subscription).
