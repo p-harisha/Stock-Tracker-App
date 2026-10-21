@@ -1,0 +1,6 @@
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+sqlmodel==0.0.22
+pydantic-settings==2.6.1
+kiteconnect==5.0.1
+yfinance==0.2.50
