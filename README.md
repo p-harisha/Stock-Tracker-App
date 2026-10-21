@@ -30,6 +30,29 @@ npm run dev                 # http://localhost:5173
 
 Without Kite, add tickers by hand; **Refresh prices** then uses Yahoo Finance.
 
+## Architecture
+
+GitHub can't show the interactive diagram inline, so download [docs/architecture.html](docs/architecture.html) and open it in a browser. Its source is [docs/architecture.archify.json](docs/architecture.archify.json).
+
+```
+You (browser) -> React app (Vite :5173) -> FastAPI backend (:8000) -> SQLite
+                                            |-> Zerodha Kite Connect (prices, holdings, history)
+                                            '-> Yahoo Finance via yfinance (fundamentals, fallback prices)
+```
+
+### Diagrams with Archify
+
+The [Archify](https://archify.si) skill (MIT, v3.2.0, from [tt-a1i/archify](https://github.com/tt-a1i/archify) at commit `25cf370`) is vendored in `.claude/skills/archify`, so Claude Code and other agents working in this repo can draw architecture, sequence, ERD and other diagrams. Its rendered example pages were left out to save 8 MB.
+
+Regenerate the architecture diagram after editing its JSON:
+
+```bash
+ARCHIFY_UPDATE_CHECK_DISABLED=1 node .claude/skills/archify/bin/archify.mjs \
+  finalize architecture docs/architecture.archify.json docs/architecture.html --quality showcase
+```
+
+It needs Node 18+ and a local Chrome or Chromium for its browser check (set `ARCHIFY_CHROME` if it isn't found). `ARCHIFY_UPDATE_CHECK_DISABLED=1` stops it checking GitHub Pages for a newer Archify release.
+
 ## How scoring works
 
 Each ticker gets a 0-100 score from four parts (`backend/app/scoring.py`):

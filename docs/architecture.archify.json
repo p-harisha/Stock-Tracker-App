@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sector Watchlist architecture",
+    "output": "docs/architecture.html",
+    "quality_profile": "showcase",
+    "locale": "en"
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "You", "sublabel": "web browser", "pos": [40, 200], "size": [120, 60] },
+    { "id": "web", "type": "frontend", "label": "React app", "sublabel": "Vite :5173", "pos": [270, 200], "size": [140, 60] },
+    { "id": "api", "type": "backend", "label": "FastAPI backend", "sublabel": "scoring + refresh :8000", "pos": [520, 198], "size": [160, 64] },
+    { "id": "db", "type": "database", "label": "SQLite", "sublabel": "tickers, quotes, alerts", "pos": [800, 200], "size": [150, 60] },
+    { "id": "kite", "type": "external", "label": "Zerodha Kite Connect", "sublabel": "needs daily login", "pos": [520, 40], "size": [160, 64], "tag": "primary prices" },
+    { "id": "yahoo", "type": "external", "label": "Yahoo Finance", "sublabel": "via yfinance", "pos": [520, 360], "size": [160, 64], "tag": "unofficial" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Runs on your machine", "wraps": ["web", "api", "db"] }
+  ],
+  "connections": [
+    { "id": "user-web", "from": "user", "to": "web", "label": "HTTP", "variant": "emphasis" },
+    { "id": "web-api", "from": "web", "to": "api", "label": "/api JSON", "variant": "emphasis" },
+    { "id": "api-db", "from": "api", "to": "db", "label": "SQLModel" },
+    { "id": "api-kite", "from": "api", "to": "kite", "label": "quotes, holdings, history", "variant": "security" },
+    { "id": "api-yahoo", "from": "api", "to": "yahoo", "label": "fundamentals + fallback prices", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Data sources", "items": ["Kite gives live NSE/BSE prices and your holdings once you log in each day", "Yahoo Finance gives P/E, market cap and dividend yield, and prices when Kite is not logged in"] },
+    { "dot": "emerald", "title": "Analysis", "items": ["Each ticker scored 0-100 on upside, momentum, valuation and risk", "Short- or long-term horizon suggested per ticker", "Sector calls weighted by money invested"] },
+    { "dot": "amber", "title": "Later", "items": ["Alert triggers are stored now; sending them comes in phase 3"] }
+  ]
+}

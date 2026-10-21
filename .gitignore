@@ -5,3 +5,7 @@ __pycache__/
 node_modules/
 dist/
 .pytest_cache/
+.archify/
+docs/*.delivery.json
+docs/*.finalize*.json
+docs/*.browser-check.json
